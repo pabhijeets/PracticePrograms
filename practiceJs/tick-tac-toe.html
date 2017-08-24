@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tick-Tac-Toe</title>
+</head>
+<body>
+<table id="game">
+    <tr>
+        <td><input type="button" id="00" onclick="markSelection(this)"/></td>
+        <td><input type="button" id="01" onclick="markSelection(this)"/></td>
+        <td><input type="button" id="02" onclick="markSelection(this)"/></td>
+    </tr>
+    <tr>
+        <td><input type="button" id="10" onclick="markSelection(this)"/></td>
+        <td><input type="button" id="11" onclick="markSelection(this)"/></td>
+        <td><input type="button" id="12" onclick="markSelection(this)"/></td>
+    </tr>
+    <tr>
+        <td><input type="button" id="20" onclick="markSelection(this)"/></td>
+        <td><input type="button" id="21" onclick="markSelection(this)"/></td>
+        <td><input type="button" id="22" onclick="markSelection(this)"/></td>
+    </tr>
+</table>
+
+<script>
+    var counter = 0;
+    var symbols = ["O", "X"];
+    var board = {
+        cells: [["", "", ""], ["", "", ""], ["", "", ""]],
+        markSelected: function (id, player) {
+            var row = id.charAt(0);
+            var col = id.charAt(1);
+            this.cells[row][col] = symbols[player];
+        },
+        hasWon: function (player) {
+            var playerSymbol = symbols[player];
+            var hasWon = false;
+            for(var row=0;row<3;row++){
+                if(playerSymbol===this.cells[row][0] && playerSymbol===this.cells[row][1] && playerSymbol===this.cells[row][2]){
+                    return true;
+                }
+            }
+            for(var col=0;col<3;col++){
+                if(playerSymbol===this.cells[0][col] && playerSymbol===this.cells[1][col] && playerSymbol===this.cells[2][col]){
+                    return true;
+                }
+            }
+
+            if (
+                (playerSymbol === this.cells[0][0] && playerSymbol === this.cells[1][1] && playerSymbol === this.cells[2][2])
+                ||(playerSymbol === this.cells[0][2] && playerSymbol === this.cells[1][1] && playerSymbol === this.cells[2][0])
+            ) {
+                hasWon = true;
+            }
+            return hasWon;
+        },
+        hasMoreCellsToPlay: function () {
+            var hasMoreCells = false;
+            for (var row = 0; row < 3; row++) {
+                for (var col = 0; col < 3; col++) {
+                    if (this.cells[row][col]) {
+                    } else {
+                        return true;
+                    }
+                }
+            }
+            return hasMoreCells;
+        }
+
+    };
+
+
+    function markSelection(thisElement) {
+        var elementId = thisElement.id;
+        var element = document.getElementById(elementId);
+        counter++;
+        var player = counter % 2;
+        element.setAttribute("value", symbols[player]);
+        element.disabled = true;
+        board.markSelected(elementId,player);
+        if(board.hasWon(player)){
+            alert("Player " + symbols[player] + " Won");
+            return;
+        }
+        if(!board.hasMoreCellsToPlay()){
+            alert("The game is TIE... please restart..");
+        }
+
+    }
+</script>
+</body>
+</html>

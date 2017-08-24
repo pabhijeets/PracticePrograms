@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Understanding...</title>
+</head>
+<body>
+<input type="text" id="textBalance" value="1000"/>
+<input type="text" id="textAmount" value="0"/>
+<input type="button" id="buttonAmount" value="steal money" onclick="stealMoney()"/>
+
+<script>
+    function substract(balance,amount) {
+        if(balance > amount){
+            balance = balance-amount;
+            alert("Its a theft!!!");
+        }else {
+            console.log("Insufficient balance to steal anything .. ")
+        }
+    }
+
+    function stealMoney() {
+        var balance = document.getElementById("textBalance").value;
+        var amount = document.getElementById("textAmount").value;
+        String.prototype.parseInt = function () {
+            console.log("in parseInt "+this);
+            return parseInt(this);
+        }
+        balance = balance.parseInt();
+        amount= amount.parseInt();
+        substract(balance,amount);
+        document.getElementById("textBalance").value = balance;
+
+    }
+</script>
+</body>
+</html>
